@@ -400,7 +400,7 @@ def calc():
                 result = value_2 - value_1
                 result = round(math.sqrt(result),2)
 
-        result_text.config(text=f"The searched for side c is {str(result)} long.")
+        result_text.configure(text=f"The searched for side c is {str(result)} long.")
         result_text.pack()
         draw_pythagoras(values[0], values[1], result, 90)
     elif current_equation == "Law of Cosin":
@@ -410,7 +410,7 @@ def calc():
 
         result = round(math.sqrt(value_1**2 + value_2**2 - 2 * value_1 * value_2 * math.cos(value_3 * (math.pi / 180))), 2)
 
-        result_text.config(text=f"The searched for side c is {str(result)} long.")
+        result_text.configure(text=f"The searched for side c is {str(result)} long.")
         result_text.pack()
 
         draw_cosins(values[0], values[1], result, values[2])
@@ -428,13 +428,13 @@ def calc():
 
             result_array[2] = round(180 - result_array[0] - result_array[1] ,2)
 
-            result_text.config(text=f"The searched angles are A = {str(result_array[0])}°, B = {str(result_array[1])}°, C = {str(result_array[2])}°.")
+            result_text.configure(text=f"The searched angles are A = {str(result_array[0])}°, B = {str(result_array[1])}°, C = {str(result_array[2])}°.")
             result_text.pack()
 
             draw_3s(values[0], values[1], values[2], result_array[0], result_array[1], result_array[2])
         except:
             clear()
-            result_text.config(text=f"Math error: Sides of Triangle don't connect.")
+            result_text.configure(text=f"Math error: Sides of Triangle don't connect.")
             result_text.pack()
     elif current_equation == "Trigonometry":
         value_1 = values[0]
@@ -462,7 +462,7 @@ def calc():
         beta = 90.0
         gamma = 90 - alpha
 
-        result_text.config(text=f"""
+        result_text.configure(text=f"""
 The searched sides are: 
 Adjacent: {round(adjacent, 3)}, Opposite: {round(opposite, 3)}, Hypothenuse: {round(hypothenuse, 3)}.
 
@@ -480,16 +480,16 @@ def dropdownChange(*args):
     global current
     global input_text_1, input_text_2, input_text_3, textbox_1, textbox_2, textbox_3, t_canvas
 
-    textbox_1.config(text="")
-    textbox_2.config(text="")
-    textbox_3.config(text="")
+    textbox_1.select_clear()
+    textbox_2.select_clear()
+    textbox_3.select_clear()
 
     if current.get() == "Pythagoras":
-        input_text_1.config(text="Length of side a:")
+        input_text_1.configure(text="Length of side a:")
         input_text_1.grid(row=0, column= 0)
         textbox_1.grid(row=0, column= 1)
 
-        input_text_2.config(text="Length of side b:")
+        input_text_2.configure(text="Length of side b:")
         input_text_2.grid(row=1, column= 0)
         textbox_2.grid(row=1, column= 1)
 
@@ -501,50 +501,50 @@ def dropdownChange(*args):
         trig_func.grid_forget()
 
     elif current.get() == "Three Sides":
-        input_text_1.config(text="Length of side a:")
+        input_text_1.configure(text="Length of side a:")
         input_text_1.grid(row=0, column= 0)
         textbox_1.grid(row=0, column= 1)
 
 
-        input_text_2.config(text="Length of side b:")
+        input_text_2.configure(text="Length of side b:")
         input_text_2.grid(row=1, column= 0)
         textbox_2.grid(row=1, column= 1)
 
-        input_text_3.config(text="Length of side c:")
+        input_text_3.configure(text="Length of side c:")
         input_text_3.grid(row=2, column= 0)
-        textbox_3.delete(0, tk.END)
+        textbox_3.delete(0, ctk.END)
         textbox_3.grid(row=2, column= 1)
 
         cathCheck.grid_forget()
         trig_func.grid_forget()
 
     elif current.get() == "Law of Cosin":
-        input_text_1.config(text="Length of side a:")
+        input_text_1.configure(text="Length of side a:")
         input_text_1.grid(row=0, column= 0)
         textbox_1.grid(row=0, column= 1)
 
-        input_text_2.config(text="Length of side b:")
+        input_text_2.configure(text="Length of side b:")
         input_text_2.grid(row=1, column= 0)
         textbox_2.grid(row=1, column= 1)
 
-        input_text_3.config(text="Angle between side a and b:")
+        input_text_3.configure(text="Angle between side a and b:")
         input_text_3.grid(row=2, column= 0)
-        textbox_3.delete(0, tk.END)
+        textbox_3.delete(0, ctk.END)
         textbox_3.grid(row=2, column= 1)
 
         cathCheck.grid_forget()
         trig_func.grid_forget()
     
     elif current.get() == "Trigonometry":
-        input_text_1.config(text="Length of side a:")
+        input_text_1.configure(text="Length of side a:")
         input_text_1.grid(row=0, column= 0)
         textbox_1.grid(row=0, column= 1)
 
-        input_text_2.config(text="Angel between side two sides:")
+        input_text_2.configure(text="Angel between side two sides:")
         input_text_2.grid(row=1, column= 0)
         textbox_2.grid(row=1, column= 1)
 
-        input_text_3.config(text="Type of Side relativ to the angle:")
+        input_text_3.configure(text="Type of Side relativ to the angle:")
         input_text_3.grid(row=2, column= 0)
         textbox_3.grid_forget()
 
@@ -558,9 +558,10 @@ if __name__ == "__main__":
     array_trig_func = ["Adjacent","Opposite","Hypothenuse"]
 
     ctk.set_appearance_mode("System-")
-    ctk.set_default_color_theme("blue")
+    ctk.set_default_color_theme("green")
+    ctk.CTkFont = "Nunito"
 
-    window= tk.Tk()      #Setup root
+    window= ctk.CTk()      #Setup root
     window.minsize(width=500, height=300)
     window.title('Triangle Calculator')
     try:
@@ -569,46 +570,45 @@ if __name__ == "__main__":
         print("Triangle Calc: Error_01 No Icon Found")
     window.resizable(width=True, height=True)
 
-    #label = tk.Label(window, text="Simple Calculator for Triangles.", font=('Arial', 14))
+    #label = ctk.CTkLabel(window, text="Simple Calculator for Triangles.", font=('Arial', 14))
     #label.pack(padx=20, pady=20)
 
-    current = tk.StringVar()
+    current = ctk.StringVar()
     current.set("Choose Equation...")
-    current.trace("w", dropdownChange)
 
-    dropdown = tk.OptionMenu(window, current, *equations)
+    dropdown = ctk.CTkOptionMenu(master=window, variable=current, values=equations, command=dropdownChange)
     dropdown.pack(padx=10, pady=10)
 
-    input_frame = tk.Frame(window)
+    input_frame = ctk.CTkFrame(window)
     input_frame.pack(pady=10, padx=10)
     input_frame.columnconfigure(0, weight=1)
     input_frame.columnconfigure(1, weight=1)
 
-    textbox_1 = tk.Entry(input_frame, font=('Arial',12))
+    textbox_1 = ctk.CTkEntry(input_frame, font=('Arial',12))
 
-    textbox_2 = tk.Entry(input_frame, font=('Arial',12))
+    textbox_2 = ctk.CTkEntry(input_frame, font=('Arial',12))
 
-    textbox_3 = tk.Entry(input_frame, font=('Arial',12))
+    textbox_3 = ctk.CTkEntry(input_frame, font=('Arial',12))
 
-    input_text_1 = tk.Label(input_frame, text="Length of side a:", font=('Arial', 11))
+    input_text_1 = ctk.CTkLabel(input_frame, text="Length of side a:", font=('Arial', 11))
 
-    input_text_2 = tk.Label(input_frame, text="Length of side b:", font=('Arial', 11))
+    input_text_2 = ctk.CTkLabel(input_frame, text="Length of side b:", font=('Arial', 11))
 
-    input_text_3 = tk.Label(input_frame, text="Length of side c:", font=('Arial', 11))
+    input_text_3 = ctk.CTkLabel(input_frame, text="Length of side c:", font=('Arial', 11))
 
-    calcCath = tk.IntVar()
-    cathCheck = tk.Checkbutton(input_frame, text='Calculate Cathetus',variable=calcCath, onvalue=1, offvalue=0)
+    calcCath = ctk.IntVar()
+    cathCheck = ctk.CTkCheckBox(input_frame, text='Calculate Cathetus',variable=calcCath, onvalue=1, offvalue=0)
 
-    trig_func_var = tk.StringVar()
+    trig_func_var = ctk.StringVar()
     trig_func_var.set("Side Name")
-    trig_func = tk.OptionMenu(input_frame, trig_func_var, *array_trig_func)
+    trig_func = ctk.CTkOptionMenu(input_frame, variable=trig_func_var, values=array_trig_func)
 
-    button = tk.Button(window, text="Calculate", font=('Arial',12), command=calc)
+    button = ctk.CTkButton(window, text="Calculate", font=('Arial',12), command=calc)
     button.pack(padx=10, pady=10)
 
-    result_text = tk.Label(window, text="", font=('Arial', 11))
+    result_text = ctk.CTkLabel(window, text="", font=('Arial', 11))
 
-    t_canvas = tk.Canvas(window, width=300, height=300, bg="white")
+    t_canvas = ctk.CTkCanvas(window, width=300, height=300, bg="white")
 
     canvas_width = 300
     canvas_height = 300
