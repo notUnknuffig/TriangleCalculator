@@ -141,7 +141,7 @@ def draw_cosins(a, b, c, angle):
     
     t_canvas.pack(pady=10,padx=10)
 
-def draw_3s(a, b, c, A, B, C):
+def draw_3s(a, b, c, alpha, beta, gamma):
     global t_canvas, canvas_height, canvas_width
     
     sorted_lengths = [a]
@@ -154,9 +154,9 @@ def draw_3s(a, b, c, A, B, C):
 
     max = sorted_lengths[0]
 
-    sorted_angles = [A]
+    sorted_angles = [alpha]
 
-    for angle in [B,C]:
+    for angle in [beta,gamma]:
         if angle <= sorted_angles[0]:
             sorted_angles.append(angle)
         else:
@@ -250,25 +250,33 @@ def draw_3s(a, b, c, A, B, C):
     
     t_canvas.pack(pady=10,padx=10)
 
-def draw_AllSides(a, b, c, A, B, C):
+def draw_AllSides(a, b, c, alpha, beta, gamma):
     global t_canvas, canvas_height, canvas_width
     
-    _max = max([a,b,c])
+    angles = [beta,gamma,alpha]
+    angle = alpha
+
+    if a > b and a > c:
+        _max = a
+    elif b > a and b > c:
+        _max = b
+    elif c > a and c > b:
+        _max = c
+    else:
+        _max = a
+
     _min = 0
 
+    unit_lengths = [c,a,b]
     lengths = []
-    for length in [a,b,c]:
+    for length in [c, a, b]:
         length = (length - _min)/(_max - _min)
         lengths.append(length)
 
     size = 0.8
 
-    if angle > 90:
-        can_relativ_width = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size - 0.5 * canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size
-        can_relativ_height = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
-    else:
-        can_relativ_width = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size
-        can_relativ_height = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
+    can_relativ_width = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size
+    can_relativ_height = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * math.sin(angles[0]) * size
 
     t_canvas.delete("all")
 
@@ -280,19 +288,19 @@ def draw_AllSides(a, b, c, A, B, C):
     
     t_canvas.create_text(can_relativ_width + 0.5 * canvas_width * lengths[0] * size,
                          can_relativ_height,
-                         text= round(sorted_lengths[0] ,2), font=('Arial', 9))
+                         text= round(unit_lengths[0] ,2), font=('Arial', 9))
     
     t_canvas.create_arc(can_relativ_width + canvas_width * lengths[0] * size - 30,
                          can_relativ_height + 30,
                          can_relativ_width + canvas_width * lengths[0] * size + 30,
                          can_relativ_height - 30,
                         start=180,
-                        extent=-sorted_angles[2],
+                        extent=-angles[2],
                         outline = "red")
     
     t_canvas.create_text(can_relativ_width + canvas_width * lengths[0] * size,
                          can_relativ_height,
-                         text= f"{round(sorted_angles[2] ,2)}°", font=('Arial', 11))
+                         text= f"{round(angles[2] ,2)}°", font=('Arial', 11))
     
     t_canvas.create_line(can_relativ_width + canvas_width * lengths[0] * size,
                          can_relativ_height,
@@ -302,19 +310,19 @@ def draw_AllSides(a, b, c, A, B, C):
     
     t_canvas.create_text(can_relativ_width + canvas_width * lengths[0] * size + 0.5 * canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size,
                          can_relativ_height - 0.5 * canvas_height * lengths[1] * math.cos((angle - 90) * (math.pi/180)) * size,
-                         text= round(sorted_lengths[1] ,2), font=('Arial', 9))
+                         text= round(unit_lengths[1] ,2), font=('Arial', 9))
     
     t_canvas.create_arc(can_relativ_width + canvas_width * lengths[0] * size + canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size + 30,
                          can_relativ_height - canvas_height * lengths[1] * math.cos((angle - 90) * (math.pi/180)) * size - 30,
                          can_relativ_width + canvas_width * lengths[0] * size + canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size - 30,
                          can_relativ_height - canvas_height * lengths[1] * math.cos((angle - 90) * (math.pi/180)) * size + 30,
                         start=-angle,
-                        extent=-sorted_angles[0],
+                        extent=-angles[0],
                         outline = "red")
     
     t_canvas.create_text(can_relativ_width + canvas_width * lengths[0] * size + canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size,
                          can_relativ_height - canvas_height * lengths[1] * math.cos((angle - 90) * (math.pi/180)) * size,
-                         text= f"{round(sorted_angles[0] ,2)}°", font=('Arial', 11))
+                         text= f"{round(angles[0] ,2)}°", font=('Arial', 11))
     
     t_canvas.create_line(can_relativ_width + canvas_width * lengths[0] * size + canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size,
                          can_relativ_height - canvas_height * lengths[1] * math.cos((angle - 90) * (math.pi/180)) * size,
@@ -324,19 +332,19 @@ def draw_AllSides(a, b, c, A, B, C):
     
     t_canvas.create_text(can_relativ_width + 0.5 * canvas_width * lengths[0] * size + 0.5 * canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size,
                          can_relativ_height - 0.5 * canvas_height * lengths[1] * math.cos((angle - 90) * (math.pi/180)) * size,
-                         text= round(sorted_lengths[2] ,2), font=('Arial', 9))
+                         text= round(unit_lengths[2] ,2), font=('Arial', 9))
     
     t_canvas.create_arc(can_relativ_width + 30,
                          can_relativ_height + 30,
                          can_relativ_width - 30,
                          can_relativ_height - 30,
                         start=0,
-                        extent=sorted_angles[1],
+                        extent=angles[1],
                         outline = "red")
     
     t_canvas.create_text(can_relativ_width,
                          can_relativ_height,
-                         text= f"{round(sorted_angles[1] ,2)}°", font=('Arial', 11))
+                         text= f"{round(angles[1] ,2)}°", font=('Arial', 11))
     
     t_canvas.pack(pady=10,padx=10)
 
@@ -356,22 +364,20 @@ def calc():
     value_3 = 0
     values = []
     strings = []
-    unite = {"mm":1000, "cm":100, "dm":100, "m":1, "km":0.001}
+    unit = {"mm":1000, "cm":100, "dm":100, "m":1, "km":0.001}
 
     try:
-        strings = [textbox_1.get().split(), textbox_2.get().split(), textbox_3.get().split()]
+        strings = [textbox_1.get(), textbox_2.get(), textbox_3.get()]
         values = []
         for string in strings:
-            if len(string) >= 1:
-                value = float(string[0])
+            if string[-1] == "²":
+                value = float(string[:-1])
+                value = math.sqrt(value)
+            elif string[-2:] in unit:
+                value = value * unit[string[-2:]]
+                value = float(string[:-2])
             else:
-                value = 0
-            if len(string) >= 2:
-                if string[1][-1] == "²":
-                    value = math.sqrt(value)
-                #if string[1][:-1] in unite:
-                    #value = value * unite[string[1][:-1]]
-                
+                  value = float(string)
             values.append(value)
     except:
         pass
@@ -437,27 +443,38 @@ def calc():
 
         if side_type == "Adjacent":
             adjacent = value_1
-            opposite = value_1 * math.tan(value_2)
-            hypothenuse = value_1 / math.cos(value_2)
+            opposite = value_1 * math.tan(value_2 * (math.pi / 180))
+            hypothenuse = value_1 / math.cos(value_2 * (math.pi / 180))
 
         elif side_type == "Opposite":
-            adjacent = value_1 / math.tan(value_2)
+            adjacent = value_1 / math.tan(value_2 * (math.pi / 180))
             opposite = value_1
-            hypothenuse = value_1 / math.sin(value_2)
+            hypothenuse = value_1 / math.sin(value_2 * (math.pi / 180))
 
         elif side_type == "Hypothenuse":
-            adjacent = value_1 * math.cos(value_2)
-            opposite = value_1 * math.sin(value_2)
+            adjacent = value_1 * math.cos(value_2 * (math.pi / 180))
+            opposite = value_1 * math.sin(value_2 * (math.pi / 180))
             hypothenuse = value_1
+        
+        area = adjacent * opposite * 0.5
 
         alpha = value_2
-        beta = 90
+        beta = 90.0
         gamma = 90 - alpha
 
-        result_text.config(text=f"The searched for sides a,b and c are {adjacent},{opposite},{hypothenuse} long.")
+        result_text.config(text=f"""
+The searched sides are: 
+Adjacent: {round(adjacent, 3)}, Opposite: {round(opposite, 3)}, Hypothenuse: {round(hypothenuse, 3)}.
+
+The searched angles are: 
+Alpha: {round(alpha, 3)}, Beta: {round(beta, 3)}, Gamma: {round(gamma, 3)}.
+
+The Sircumfrance is {round(adjacent + opposite + hypothenuse, 3)}.
+The Area is {round(area, 3)}
+        """)
         result_text.pack()
 
-        draw_3s(adjacent, opposite, hypothenuse, alpha, beta, gamma)
+        draw_AllSides(adjacent, opposite, hypothenuse, alpha, beta, gamma)
 
 def dropdownChange(*args):
     global current
@@ -534,63 +551,63 @@ def dropdownChange(*args):
         trig_func.grid(row=2, column= 1)
         cathCheck.grid_forget()
         
-equations = ["Pythagoras", "Law of Cosin", "Three Sides", "Trigonometry"]
-array_trig_func = ["Adjacent","Opposite","Hypothenuse"]
-
-window= tk.Tk()      #Setup root
-window.minsize(width=500, height=300)
-window.title('Triangle Calculator')
-try:
-    window.iconbitmap(r"C:\Users\itsga\Desktop\ProgrammingProjects\Python\icon.ico")
-except:
-    print("Triangle Calc: Error_01 No Icon Found")
-window.resizable(width=True, height=True)
-
-label = tk.Label(window, text="Simple Calculator for Triangles.", font=('Arial', 14))
-label.pack(padx=20, pady=20)
-
-current = tk.StringVar()
-current.set("Choose Equation...")
-current.trace("w", dropdownChange)
-
-dropdown = tk.OptionMenu(window, current, *equations)
-dropdown.pack()
-
-input_frame = tk.Frame(window)
-input_frame.pack(pady=10, padx=10)
-input_frame.columnconfigure(0, weight=1)
-input_frame.columnconfigure(1, weight=1)
-
-textbox_1 = tk.Entry(input_frame, font=('Arial',12))
-
-textbox_2 = tk.Entry(input_frame, font=('Arial',12))
-
-textbox_3 = tk.Entry(input_frame, font=('Arial',12))
-
-input_text_1 = tk.Label(input_frame, text="Length of side a:", font=('Arial', 11))
-
-input_text_2 = tk.Label(input_frame, text="Length of side b:", font=('Arial', 11))
-
-input_text_3 = tk.Label(input_frame, text="Length of side c:", font=('Arial', 11))
-
-calcCath = tk.IntVar()
-cathCheck = tk.Checkbutton(input_frame, text='Calculate Cathetus',variable=calcCath, onvalue=1, offvalue=0)
-
-trig_func_var = tk.StringVar()
-trig_func_var.set("Side Name")
-trig_func = tk.OptionMenu(input_frame, trig_func_var, *array_trig_func)
-
-button = tk.Button(window, text="Calculate", font=('Arial',12), command=calc)
-button.pack(padx=10, pady=10)
-
-result_text = tk.Label(window, text="", font=('Arial', 11))
-
-t_canvas = tk.Canvas(window, width=300, height=300, bg="white")
-
-canvas_width = 300
-canvas_height = 300
-
-
-window.mainloop()         #Culprit
+      #Culprit
         
+if __name__ == "__main__":
+    equations = ["Pythagoras", "Trigonometry", "Law of Cosin", "Three Sides"]
+    array_trig_func = ["Adjacent","Opposite","Hypothenuse"]
 
+    window= tk.Tk()      #Setup root
+    window.minsize(width=500, height=300)
+    window.title('Triangle Calculator')
+    try:
+        window.iconbitmap(r"./icon.ico")
+    except:
+        print("Triangle Calc: Error_01 No Icon Found")
+    window.resizable(width=True, height=True)
+
+    label = tk.Label(window, text="Simple Calculator for Triangles.", font=('Arial', 14))
+    label.pack(padx=20, pady=20)
+
+    current = tk.StringVar()
+    current.set("Choose Equation...")
+    current.trace("w", dropdownChange)
+
+    dropdown = tk.OptionMenu(window, current, *equations)
+    dropdown.pack()
+
+    input_frame = tk.Frame(window)
+    input_frame.pack(pady=10, padx=10)
+    input_frame.columnconfigure(0, weight=1)
+    input_frame.columnconfigure(1, weight=1)
+
+    textbox_1 = tk.Entry(input_frame, font=('Arial',12))
+
+    textbox_2 = tk.Entry(input_frame, font=('Arial',12))
+
+    textbox_3 = tk.Entry(input_frame, font=('Arial',12))
+
+    input_text_1 = tk.Label(input_frame, text="Length of side a:", font=('Arial', 11))
+
+    input_text_2 = tk.Label(input_frame, text="Length of side b:", font=('Arial', 11))
+
+    input_text_3 = tk.Label(input_frame, text="Length of side c:", font=('Arial', 11))
+
+    calcCath = tk.IntVar()
+    cathCheck = tk.Checkbutton(input_frame, text='Calculate Cathetus',variable=calcCath, onvalue=1, offvalue=0)
+
+    trig_func_var = tk.StringVar()
+    trig_func_var.set("Side Name")
+    trig_func = tk.OptionMenu(input_frame, trig_func_var, *array_trig_func)
+
+    button = tk.Button(window, text="Calculate", font=('Arial',12), command=calc)
+    button.pack(padx=10, pady=10)
+
+    result_text = tk.Label(window, text="", font=('Arial', 11))
+
+    t_canvas = tk.Canvas(window, width=300, height=300, bg="white")
+
+    canvas_width = 300
+    canvas_height = 300
+
+    window.mainloop()
