@@ -1,4 +1,5 @@
 import math
+from os import chdir, getcwd
 import tkinter as tk
 import customtkinter as ctk
 
@@ -564,7 +565,7 @@ if __name__ == "__main__":
     window.minsize(width=500, height=300)
     window.title('Triangle Calculator')
     try:
-        window.iconbitmap(r"./icon.ico")
+        window.iconbitmap(r"TrigIcon.ico")
     except:
         print("Triangle Calc: Error_01 No Icon Found")
     window.resizable(width=True, height=True)
