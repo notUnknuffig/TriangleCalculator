@@ -350,8 +350,7 @@ def draw_AllSides(a, b, c, alpha, beta, gamma):
     t_canvas.pack(pady=10,padx=10)
 
 def clear():
-    global t_canvas, result_text
-    result_text.forget()
+    global t_canvas
     t_canvas.delete("all")
     t_canvas.pack_forget()
 
@@ -552,37 +551,9 @@ def dropdownChange(*args):
 
         trig_func.grid(row=2, column= 1)
         cathCheck.grid_forget()
-    
-    call_update()
+        
       #Culprit
-
-def call_update(*args):
-    global current
-    global textbox_1, textbox_2, textbox_3, trig_func_var
-    match current.get():
-        case "Pythagoras":
-            if textbox_1.get() != "" and textbox_2.get():
-                calc()
-            else:
-                clear()
-        case "Right Triangle":
-            if textbox_1.get() != "" and textbox_2.get() and trig_func_var.get() != "Side Name":
-                calc()
-            else:
-                clear()
-        case "Three Sides":
-            if textbox_1.get() != "" and textbox_2.get() and textbox_3.get():
-                calc()
-            else:
-                clear()
-        case "Law of Cosin":
-            if textbox_1.get() != "" and textbox_2.get() and textbox_3.get():
-                calc()
-            else:
-                clear()
-
-
-
+        
 if __name__ == "__main__":
     equations = ["Pythagoras", "Right Triangle", "Law of Cosin", "Three Sides"]
     array_trig_func = ["Adjacent","Opposite","Hypothenuse"]
@@ -592,9 +563,9 @@ if __name__ == "__main__":
 
     window= tk.Tk()      #Setup root
     window.minsize(width=500, height=300)
-    window.title('Triangle Calculator')
+    window.title('Advanced Calculator')
     try:
-        os.getcwd()
+        print(os.getcwd())
         window.iconbitmap(r"TrigIcon.ico")
     except:
         print("Triangle Calc: Error_01 No Icon Found")
@@ -605,7 +576,7 @@ if __name__ == "__main__":
 
     current = tk.StringVar()
     current.set("Choose Equation...")
-    current.trace_add("write", dropdownChange)
+    current.trace("w", dropdownChange)
 
     dropdown = tk.OptionMenu(window, current, *equations)
     dropdown.pack(padx=10, pady=10)
@@ -615,20 +586,11 @@ if __name__ == "__main__":
     input_frame.columnconfigure(0, weight=1)
     input_frame.columnconfigure(1, weight=1)
 
-    #textvar_1 = tk.StringVar()
-    #textvar_1.trace_add("write", lambda name, index, mode, var:textvar_1: call_update(var))
     textbox_1 = tk.Entry(input_frame, font=('Arial',12))
-    textbox_1.bind("<KeyRelease>", call_update)
 
-    #textvar_2 = tk.StringVar()
-    #textvar_2.trace_add("write", call_update)
     textbox_2 = tk.Entry(input_frame, font=('Arial',12))
-    textbox_2.bind("<KeyRelease>", call_update)
 
-    #textvar_3 = tk.StringVar()
-    #textvar_3.trace_add("write", call_update)
     textbox_3 = tk.Entry(input_frame, font=('Arial',12))
-    textbox_3.bind("<KeyRelease>", call_update)
 
     input_text_1 = tk.Label(input_frame, text="Length of side a:", font=('Arial', 11))
 
@@ -637,16 +599,14 @@ if __name__ == "__main__":
     input_text_3 = tk.Label(input_frame, text="Length of side c:", font=('Arial', 11))
 
     calcCath = tk.IntVar()
-    calcCath.trace_add("write", call_update)
     cathCheck = tk.Checkbutton(input_frame, text='Calculate Cathetus',variable=calcCath, onvalue=1, offvalue=0)
 
     trig_func_var = tk.StringVar()
-    trig_func_var.trace_add("write", call_update)
     trig_func_var.set("Side Name")
     trig_func = tk.OptionMenu(input_frame, trig_func_var, *array_trig_func)
 
-    #button = tk.Button(window, text="Calculate", font=('Arial',12), command=calc)
-    #button.pack(padx=10, pady=10)
+    button = tk.Button(window, text="Calculate", font=('Arial',12), command=calc)
+    button.pack(padx=10, pady=10)
 
     result_text = tk.Label(window, text="", font=('Arial', 11))
 
