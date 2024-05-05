@@ -4,34 +4,37 @@ import tkinter as tk
 import customtkinter as ctk
 
 
-def draw_pythagoras(a, b, c, angle):
+def draw_pythagoras(a: float, b: float, c: float):
     global t_canvas, canvas_height, canvas_width
     
+    cath_1: float
+    cath_2: float
+
     #Normalize
     if a > b and a > c:
-        max = a
-        cath_1 =b
-        cath_2 =c
+        max_side = a
+        cath_1 = b
+        cath_2 = c
     elif b > a and b > c:
-        max = b
+        max_side = b
         cath_1 = a
         cath_2 = c
     elif c > a and c > b:
-        max = c
+        max_side = c
         cath_1 = a
         cath_2 = b
 
-    min = 0
+    min_side: float = 0
 
     lengths = []
-    for length in [cath_1, cath_2, max]:
-        length = (length - min)/(max - min)
+    for length in [cath_1, cath_2, max_side]:
+        length = (length - min_side)/(max_side - min_side)
         lengths.append(length)
 
-    size = 0.8
+    size: float = 0.8
 
-    can_relativ_width = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size
-    can_relativ_height = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
+    can_relativ_width: float = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size
+    can_relativ_height: float = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
 
     t_canvas.delete("all")
 
@@ -67,24 +70,24 @@ def draw_pythagoras(a, b, c, angle):
     
     t_canvas.pack(pady=10,padx=10)
 
-def draw_cosins(a, b, c, angle):
+def draw_cosins(a: float, b: float, c: float, angle: float):
     global t_canvas, canvas_height, canvas_width
     
     #Normalize
     if a > b and a > c:
-        max = a
+        max_side = a
     elif b > a and b > c:
-        max = b
+        max_side = b
     elif c > a and c > b:
-        max = c
+        max_side = c
     else:
-        max = a
+        max_side = a
 
-    min = 0
+    min_side: float = 0
 
     lengths = []
     for length in [a, b, c]:
-        length = (length - min)/(max - min)
+        length = (length - min_side)/(max_side - min_side)
         lengths.append(length)
 
     size = 0.8
@@ -142,7 +145,7 @@ def draw_cosins(a, b, c, angle):
     
     t_canvas.pack(pady=10,padx=10)
 
-def draw_3s(a, b, c, alpha, beta, gamma):
+def draw_3s(a: float, b: float, c: float, alpha: float, beta: float, gamma: float):
     global t_canvas, canvas_height, canvas_width
     
     sorted_lengths = [a]
@@ -153,7 +156,7 @@ def draw_3s(a, b, c, alpha, beta, gamma):
         else:
             sorted_lengths.insert(0, length)
 
-    max = sorted_lengths[0]
+    max_side = sorted_lengths[0]
 
     sorted_angles = [alpha]
 
@@ -165,21 +168,21 @@ def draw_3s(a, b, c, alpha, beta, gamma):
 
     angle = sorted_angles[2]
 
-    min = 0
+    min_side = 0
 
     lengths = []
     for length in sorted_lengths:
-        length = (length - min)/(max - min)
+        length = (length - min_side)/(max_side - min_side)
         lengths.append(length)
 
     size = 0.8
 
     if angle > 90:
-        can_relativ_width = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size - 0.5 * canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size
-        can_relativ_height = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
+        can_relativ_width: float = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size - 0.5 * canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size
+        can_relativ_height: float = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
     else:
-        can_relativ_width = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size
-        can_relativ_height = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
+        can_relativ_width: float = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size
+        can_relativ_height: float = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
 
     t_canvas.delete("all")
 
@@ -251,27 +254,29 @@ def draw_3s(a, b, c, alpha, beta, gamma):
     
     t_canvas.pack(pady=10,padx=10)
 
-def draw_AllSides(a, b, c, alpha, beta, gamma):
+def draw_AllSides(a: float, b: float, c: float, alpha: float, beta: float, gamma: float):
     global t_canvas, canvas_height, canvas_width
     
     angles = [beta,gamma,alpha]
     angle = alpha
 
-    if a > b and a > c:
-        _max = a
-    elif b > a and b > c:
-        _max = b
-    elif c > a and c > b:
-        _max = c
-    else:
-        _max = a
+    max_side: float = 0
+    min_side: float = 0
 
-    _min = 0
+    if a > b and a > c:
+        max_side = a
+    elif b > a and b > c:
+        max_side = b
+    elif c > a and c > b:
+        max_side = c
+    else:
+        max_side = a
+
 
     unit_lengths = [c,a,b]
     lengths = []
     for length in [c, a, b]:
-        length = (length - _min)/(_max - _min)
+        length = (length - min_side)/(max_side - min_side)
         lengths.append(length)
 
     size = 0.8
@@ -580,8 +585,6 @@ def call_update(*args):
                 calc()
             else:
                 clear()
-
-
 
 if __name__ == "__main__":
     equations = ["Pythagoras", "Right Triangle", "Law of Cosin", "Three Sides"]
