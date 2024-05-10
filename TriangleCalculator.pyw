@@ -66,7 +66,7 @@ def draw_pythagoras(a: float, b: float, c: float):
     
     t_canvas.create_text(can_relativ_width + 0.5 * canvas_width * lengths[0] * size,
                          can_relativ_height -  0.5 * canvas_height * lengths[1] * size,
-                         text= round(max,2), font=('Arial', 11))
+                         text= round(max_side,2), font=('Arial', 11))
     
     t_canvas.pack(pady=10,padx=10)
 
@@ -177,12 +177,15 @@ def draw_3s(a: float, b: float, c: float, alpha: float, beta: float, gamma: floa
 
     size = 0.8
 
+    can_relativ_width: float
+    can_relativ_height: float
+
     if angle > 90:
-        can_relativ_width: float = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size - 0.5 * canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size
-        can_relativ_height: float = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
+        can_relativ_width = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size - 0.5 * canvas_width * lengths[1] * math.sin((angle - 90) * (math.pi/180)) * size
+        can_relativ_height = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
     else:
-        can_relativ_width: float = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size
-        can_relativ_height: float = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
+        can_relativ_width = canvas_width * 0.5 - 0.5 * canvas_width * lengths[0] * size
+        can_relativ_height = canvas_height * 0.5 + 0.5 * canvas_height * lengths[1] * size
 
     t_canvas.delete("all")
 
@@ -409,7 +412,7 @@ def calc():
 
         result_text.config(text=f"The searched for side c is {str(result)} long.")
         result_text.pack()
-        draw_pythagoras(values[0], values[1], result, 90)
+        draw_pythagoras(values[0], values[1], result)
     elif current_equation == "Law of Cosin":
         value_1 = values[0]
         value_2 = values[1]
